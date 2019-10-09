@@ -49,14 +49,6 @@ class _UserTransactionsState extends State<UserTransactions> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Container(
-          width: double.infinity,
-          child: Card(
-            color: Colors.blue,
-            child: Text('CHART'),
-            elevation: 5,
-          ),
-        ),
         NewTransaction(this._addNewTransaction),
         TransactionList(
           transactions: this._transactions,
