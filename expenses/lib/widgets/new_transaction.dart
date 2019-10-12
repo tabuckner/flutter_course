@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../widgets/adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -16,20 +21,21 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
-    if (this._amountController.text.isEmpty) {
+    if (_amountController.text.isEmpty) {
       return;
     }
-
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty ||
-        enteredAmount <= 0 ||
-        this._selectedDate == null) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
 
-    widget.addTx(enteredTitle, enteredAmount, this._selectedDate);
+    widget.addTx(
+      enteredTitle,
+      enteredAmount,
+      _selectedDate,
+    );
 
     Navigator.of(context).pop();
   }
@@ -38,17 +44,17 @@ class _NewTransactionState extends State<NewTransaction> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(DateTime.now().year),
+      firstDate: DateTime(2019),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
       }
-
-      this.setState(() {
-        this._selectedDate = pickedDate;
+      setState(() {
+        _selectedDate = pickedDate;
       });
     });
+    print('...');
   }
 
   @override
@@ -82,23 +88,17 @@ class _NewTransactionState extends State<NewTransaction> {
                 // onChanged: (val) => amountInput = val,
               ),
               Container(
-                height: 62,
+                height: 70,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      this._selectedDate == null
-                          ? 'No Date Selected'
-                          : 'Date Selected: ${DateFormat.yMd().format(this._selectedDate)}',
-                    ),
-                    FlatButton(
+                    Expanded(
                       child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        _selectedDate == null
+                            ? 'No Date Chosen!'
+                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: this._presentDatePicker,
-                    )
+                    ),
+                    AdaptiveFlatButton('Choose Date', _presentDatePicker)
                   ],
                 ),
               ),
