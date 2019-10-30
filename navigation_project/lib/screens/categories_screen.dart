@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/category_item.dart';
-import 'package:flutter_complete_guide/dummy_data.dart';
+import 'package:flutter_complete_guide/shared/widgets/category_item.dart';
+import 'package:flutter_complete_guide/shared/mocks/dummy_data.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  static const routeName = '/';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +16,7 @@ class CategoriesScreen extends StatelessWidget {
               (category) => CategoryItem(
                 color: category.color,
                 title: category.title,
+                id: category.id
               ),
             )
             .toList(),
